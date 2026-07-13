@@ -23,11 +23,13 @@
 
 ## Структура (App Router)
 
-- `src/app/layout.tsx` — спільний Header/Footer для всіх сторінок
-- `src/app/page.tsx` — головна
-- `src/app/catalog/[category]/page.tsx` — сторінка категорії (один шаблон замість 6 окремих HTML)
-- `src/app/product/[id]/page.tsx` — сторінка товару (один шаблон замість ~170 старих статичних HTML)
-- `src/lib/products.ts` — шар доступу до даних
+Примітка: проєкт створено БЕЗ папки `src/` (сучасний `create-next-app` за замовчуванням її не додає) — увесь код одразу в корені, не в `src/app/`.
+
+- `app/layout.tsx` — спільний Header/Footer для всіх сторінок
+- `app/page.tsx` — головна
+- `app/catalog/[category]/page.tsx` — сторінка категорії (один шаблон замість 6 окремих HTML)
+- `app/product/[id]/page.tsx` — сторінка товару (один шаблон замість ~170 старих статичних HTML)
+- `lib/products.ts` — шар доступу до даних
 - `public/` — статичні зображення товарів
 
 ## Конвенції
