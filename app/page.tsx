@@ -1,65 +1,90 @@
-import Image from "next/image";
+import CategoryCarousel from "@/components/CategoryCarousel";
+
+const categories = [
+    { slug: "revitalizant", name: "Ревіталізанти", image: "/images/revitalizant-new.jpg" },
+    { slug: "olyvy", name: "Оливи", image: "/images/olyva.jpg" },
+    { slug: "technical_ridini", name: "Технічні рідини", image: "/images/tecnichni.jpg" },
+    { slug: "mastyla", name: "Мастила", image: "/images/mastyla.jpg" },
+    { slug: "avtoXimia", name: "Автохімія", image: "/images/avtoximia.jpg" },
+    { slug: "avtoKosmetika", name: "Автокосметика", image: "/images/avtokosmetika.jpg" },
+];
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    return (
+        <>
+            <section id="hero" className="py-12">
+                <h1 className="text-3xl font-bold sm:text-4xl">
+                    Магазин XADO — якість і надійність для вашого авто
+                </h1>
+                <p className="mt-4 text-gray-700">
+                    Пропонуємо широкий вибір продукції XADO: моторні оливи, присадки,
+                    автохімію та автокосметику за вигідними цінами.
+                </p>
+                <p className="mt-2 text-gray-700">
+                    Піклуйтеся про свій автомобіль разом з перевіреними засобами XADO —
+                    якість, якій довіряють тисячі водіїв по всій Україні.
+                </p>
+                <p className="mt-2 text-gray-700">
+                    Завжди можете зателефонувати та уточнити наявність товару — ми
+                    завжди раді допомогти!
+                </p>
+            </section>
+
+            <h2 id="categories" className="mb-6 text-2xl font-bold">
+                Категорії товарів
+            </h2>
+
+            <CategoryCarousel categories={categories} />
+
+            <section id="about-store" className="mt-16 space-y-8">
+                <div>
+                    <h3 className="text-xl font-bold">
+                        Технології, що повертають життя вашому двигуну
+                    </h3>
+                    <p className="mt-2 text-gray-700">
+                        Продукція XADO — це сучасне рішення для ефективного догляду за
+                        технікою. Інноваційні склади не лише покращують роботу двигуна, а
+                        й активно відновлюють поверхні, що зазнали зносу.
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold">
+                        Не знаєте, що саме обрати для вашого автомобіля?
+                    </h3>
+                    <p className="mt-2 text-gray-700">
+                        Ми допоможемо підібрати потрібні засоби: оливи, присадки,
+                        очищувачі, автохімію — усе, що потрібно для догляду за двигуном,
+                        трансмісією, паливною системою та іншими важливими вузлами
+                        вашого авто.
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold">Де нас знайти?</h3>
+                    <p className="mt-2 text-gray-700">
+                        📍 Адреса: м. Кропивницький, вул. Кропивницького, 184
+                    </p>
+                    <p className="text-gray-700">
+                        📞 Телефон:{" "}
+                        <a href="tel:+380505850726" className="text-red-600 hover:underline">
+                            +38 (050) 585-07-26
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <section className="my-16">
+                <h2 className="mb-4 text-2xl font-bold">Ми знаходимося тут:</h2>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d165.24374415397378!2d32.26845571597863!3d48.49681130613009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d0690062df006b%3A0x6a8c36194f6fa962!2zWGFkbyDQmtGA0L7Qv9C40LLQvdC40YbRjNC60LjQuQ!5e0!3m2!1suk!2sua!4v1775631533411!5m2!1suk!2sua"
+                    width="100%"
+                    height="450"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="rounded-lg"
+                />
+            </section>
+        </>
+    );
 }
