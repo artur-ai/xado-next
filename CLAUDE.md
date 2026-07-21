@@ -1,52 +1,52 @@
-# XADO Кропивницький — Next.js фронтенд (переписування з нуля)
+# XADO Kropyvnytskyi — Next.js frontend (rewrite from scratch)
 
-## Що це за проєкт
+## What this project is
 
-Новий фронтенд інтернет-магазину XADO (оливи, мастила, автохімія, автокосметика, технічні рідини, ревіталізанти). Переписується з чистого HTML/CSS/JS на Next.js. Це **окремий репозиторій**, паралельний до старого — старий сайт лишається живим на проді, доки новий не буде готовий до заміни.
+New frontend for the XADO online store (motor oils, greases, auto chemicals, car cosmetics, technical fluids, revitalizants). Being rewritten from plain HTML/CSS/JS to Next.js. This is a **separate repository**, running in parallel with the old one — the old site stays live in production until the new one is ready to replace it.
 
-- **Старий репозиторій (прод, поки не замінено):** `Xado.html` — github.com/artur-ai/Xado.html, деплой на Netlify, xado-krop.com.ua
-- **Цей репозиторій:** `xado-next` — новий фронтенд, поки в розробці локально
+- **Old repository (prod, not yet replaced):** `Xado.html` — github.com/artur-ai/Xado.html, deployed on Netlify, xado-krop.com.ua
+- **This repository:** `xado-next` — new frontend, currently in local development
 
-## Стек
+## Stack
 
 - Next.js (App Router, TypeScript, Turbopack)
-- Tailwind CSS для стилів (класи прямо в розмітці, без окремих `.css` файлів на компонент)
-- Дані поки що — Google Sheets, опубліковані як CSV (`pub?output=csv`), окремий `gid` на кожну категорію товарів, парсяться через PapaParse. У майбутньому — заміна на Java REST API + PostgreSQL.
+- Tailwind CSS for styling (utility classes directly in markup, no separate `.css` file per component)
+- Data source for now — Google Sheets, published as CSV (`pub?output=csv`), a separate `gid` per product category, parsed with PapaParse. Will later be replaced by a Java REST API + PostgreSQL.
 
-## Джерело даних (поки Google Sheets)
+## Data source (Google Sheets, for now)
 
-Колонки в таблиці — українською: `ID`, `Назва`, `Категорія`, `Ціна`, `Обєм`, `Картинка`, `Опис`, `Переваги`, `Вимоги та допуски`, `Технічна інформація`, `Посилання`.
+Table columns are in Ukrainian: `ID`, `Назва` (Name), `Категорія` (Category), `Ціна` (Price), `Обєм` (Volume), `Картинка` (Image), `Опис` (Description), `Переваги` (Advantages), `Вимоги та допуски` (Requirements & approvals), `Технічна інформація` (Technical info), `Посилання` (Link).
 
-Категорії (=окремий `gid` на кожну): `olyvy` (оливи), `mastyla` (мастила), `avtoXimia` (автохімія), `avtoKosmetika` (автокосметика), `technical_ridini` (технічні рідини), `revitalizant` (ревіталізанти).
+Categories (= a separate `gid` each): `olyvy` (oils), `mastyla` (greases), `avtoXimia` (auto chemicals), `avtoKosmetika` (car cosmetics), `technical_ridini` (technical fluids), `revitalizant` (revitalizants).
 
-**Правило:** весь доступ до даних товарів іде через один модуль `src/lib/products.ts`. Компоненти ніколи не викликають Google Sheets/CSV напряму — тільки через функції цього модуля. Це зроблено навмисно, щоб заміна Google Sheets → Java API пізніше не вимагала переписування компонентів, тільки цей один файл.
+**Rule:** all access to product data goes through a single module, `lib/products.ts`. Components never call Google Sheets/CSV directly — only through functions in this module. This is deliberate, so that later replacing Google Sheets with the Java API only requires changing this one file, not rewriting components.
 
-## Структура (App Router)
+## Structure (App Router)
 
-Примітка: проєкт створено БЕЗ папки `src/` (сучасний `create-next-app` за замовчуванням її не додає) — увесь код одразу в корені, не в `src/app/`.
+Note: the project was created WITHOUT a `src/` folder (modern `create-next-app` no longer adds it by default) — all code lives directly at the root, not under `src/app/`.
 
-- `app/layout.tsx` — спільний Header/Footer для всіх сторінок
-- `app/page.tsx` — головна
-- `app/catalog/[category]/page.tsx` — сторінка категорії (один шаблон замість 6 окремих HTML)
-- `app/product/[id]/page.tsx` — сторінка товару (один шаблон замість ~170 старих статичних HTML)
-- `lib/products.ts` — шар доступу до даних
-- `public/` — статичні зображення товарів
+- `app/layout.tsx` — shared Header/Footer for every page
+- `app/page.tsx` — home page
+- `app/catalog/[category]/page.tsx` — category page (one template instead of 6 separate HTML files)
+- `app/product/[id]/page.tsx` — product page (one template instead of ~170 old static HTML files)
+- `lib/products.ts` — data access layer
+- `public/` — static product images
 
-## Конвенції
+## Conventions
 
-- Мова коду/змінних — англійська, навіть якщо джерело даних (Google Sheets) українською — нормалізуємо в типізовані поля в `lib/products.ts`.
-- Зображення товарів: kebab-case латиницею без пробілів (старі назви типу `"anyway 150.jpg"` — перейменовувати при перенесенні).
-- Стилі — тільки Tailwind, без окремих `.css` файлів для компонентів.
-- Не створювати статичних/захардкоджених товарних сторінок — усе через динамічний `product/[id]/page.tsx` + дані з `lib/products.ts`.
+- Code/variable language — English, even though the data source (Google Sheets) is in Ukrainian — normalize into typed fields inside `lib/products.ts`.
+- Product images: kebab-case, Latin characters, no spaces (old names like `"anyway 150.jpg"` should be renamed on migration).
+- Styling — Tailwind only, no separate `.css` files per component.
+- Do not create static/hardcoded product pages — everything goes through the dynamic `product/[id]/page.tsx` + data from `lib/products.ts`.
 
-## Відомі "не-баги"
+## Known "non-bugs"
 
-- Dev-режим Next.js інколи показує `Console Error: A tree hydrated but some attributes...` з атрибутом `bis_skin_checked` у діффі — це не баг проєкту, а браузерне розширення Bitdefender, яке підмішує свій атрибут у DOM до гідратації React. Ігнорувати або вимкнути розширення для `localhost`.
-- Якщо зміни в коді (особливо в `globals.css` чи стилях) не відображаються в браузері навіть після збереження файлу і hard refresh (`Cmd+Shift+R`) — перший крок діагностики: зупинити dev-сервер (`Ctrl+C`), видалити кеш `rm -rf .next`, запустити знову `npm run dev`. Turbopack-кеш регулярно "зависає" зі старою версією файлу після серії швидких правок.
+- Next.js dev mode sometimes shows `Console Error: A tree hydrated but some attributes...` with a `bis_skin_checked` attribute in the diff — this is not a project bug, it's the Bitdefender browser extension injecting its own attribute into the DOM before React hydration. Ignore it, or disable the extension for `localhost`.
+- If code changes (especially in `globals.css` or styles) don't show up in the browser even after saving the file and a hard refresh (`Cmd+Shift+R`) — first diagnostic step: stop the dev server (`Ctrl+C`), delete the cache with `rm -rf .next`, and run `npm run dev` again. The Turbopack cache regularly gets "stuck" on an old version of a file after a series of quick edits.
 
-## Контакти магазину (для футера/контактної інформації)
+## Store contact info (for footer/contact info)
 
-- Телефон: +38 (050) 585-07-26
+- Phone: +38 (050) 585-07-26
 - Email: xado.krop@ukr.net
-- Адреса: м. Кропивницький, вул. Кропивницького, 184
-- Графік: Пн–Сб 09:00–16:00, Нд 09:00–13:00
+- Address: Kropyvnytskyi, vul. Kropyvnytskoho 184
+- Hours: Mon–Sat 09:00–16:00, Sun 09:00–13:00
