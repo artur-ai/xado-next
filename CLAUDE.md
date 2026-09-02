@@ -35,7 +35,7 @@ Note: the project was created WITHOUT a `src/` folder (modern `create-next-app` 
 ## Conventions
 
 - Code/variable language — English, even though the data source (Google Sheets) is in Ukrainian — normalize into typed fields inside `lib/products.ts`.
-- Product images: kebab-case, Latin characters, no spaces (old names like `"anyway 150.jpg"` should be renamed on migration).
+- Products images: kebab-case, Latin characters, no spaces (old names like `"anyway 150.jpg"` should be renamed on migration).
 - Styling — Tailwind only, no separate `.css` files per component.
 - Do not create static/hardcoded product pages — everything goes through the dynamic `product/[id]/page.tsx` + data from `lib/products.ts`.
 
