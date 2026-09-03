@@ -60,10 +60,7 @@ export default async function ProductPage({
 
     return (
         <div className="py-4 md:py-10">
-            <div
-                className="mx-auto max-w-[960px] overflow-hidden rounded-[10px] border-l-4 bg-white p-4 shadow-[0_4px_12px_rgba(0,0,0,0.08)] md:border-l-8 md:p-10"
-                style={{ borderColor: "#d32f2f" }}
-            >
+            <div className="mx-auto max-w-[960px] overflow-hidden rounded-2xl border border-[#e5e5e5] bg-white p-4 md:p-10">
                 <div className="relative mx-auto mb-5 h-[250px] w-full max-w-[250px] md:mb-8 md:h-[350px] md:max-w-[350px]">
                     <Image
                         src={getProductImagePath(category, product.image)}
@@ -74,17 +71,17 @@ export default async function ProductPage({
                     />
                 </div>
 
-                <h1 className="mb-3 text-center text-xl leading-tight font-bold text-[#111] md:mb-4 md:text-3xl">
+                <h1 className="mb-3 text-center text-xl leading-tight font-medium text-[#1a1a1a] md:mb-4 md:text-3xl">
                     {product.name}
                 </h1>
 
-                <p className="mb-5 text-center text-xl font-bold text-[#d32f2f] md:mb-6 md:text-2xl">
+                <p className="mb-5 text-center text-xl font-semibold text-[#c81e1e] md:mb-6 md:text-2xl">
                     Ціна: {product.price} грн
                 </p>
 
                 {product.volume && (
-                    <p className="mb-3 text-[15px] md:text-base">
-                        <strong className="text-[#111]">Об&rsquo;єм:</strong> {product.volume}
+                    <p className="mb-3 text-[15px] text-[#6b7280] md:text-base">
+                        <strong className="font-medium text-[#1a1a1a]">Об&rsquo;єм:</strong> {product.volume}
                     </p>
                 )}
 
@@ -95,20 +92,20 @@ export default async function ProductPage({
 
                     return (
                         <div key={section.title} className="mt-6 md:mt-8">
-                            <h2 className="mb-3 text-lg font-bold text-[#d32f2f] md:text-xl">{section.title}</h2>
+                            <h2 className="mb-3 text-lg font-medium text-[#1a1a1a] md:text-xl">{section.title}</h2>
                             {isTechTable && techRows.length > 0 ? (
                                 <table className="w-full border-collapse overflow-hidden rounded-lg text-sm md:text-base">
                                     <tbody>
                                     {techRows.map((row) => (
-                                        <tr key={row.label} className="border-b border-[#eee] last:border-b-0">
-                                            <td className="bg-[#fafafa] py-2 pr-3 pl-3 font-medium text-[#333]">{row.label}</td>
-                                            <td className="py-2 pr-3 pl-3 text-[#111]">{row.value}</td>
+                                        <tr key={row.label} className="border-b border-[#e5e5e5] last:border-b-0">
+                                            <td className="bg-[#fafafa] py-2 pr-3 pl-3 font-medium text-[#6b7280]">{row.label}</td>
+                                            <td className="py-2 pr-3 pl-3 text-[#1a1a1a]">{row.value}</td>
                                         </tr>
                                     ))}
                                     </tbody>
                                 </table>
                             ) : (
-                                <p className="text-[15px] leading-relaxed whitespace-pre-line md:text-base">
+                                <p className="text-[15px] leading-relaxed whitespace-pre-line text-[#6b7280] md:text-base">
                                     {section.content}
                                 </p>
                             )}
@@ -116,25 +113,27 @@ export default async function ProductPage({
                     );
                 })}
 
-                <section className="mt-8 rounded-lg border border-[#eaeaea] bg-[#fafafa] p-5 md:mt-10 md:p-8">
-                    <h2 className="mb-3 text-lg font-bold text-[#111] md:text-xl">Зв&rsquo;яжіться з нами</h2>
-                    <p className="mb-2.5 text-sm md:text-base">
+                <section className="mt-8 rounded-xl border border-[#e5e5e5] bg-[#fafafa] p-5 md:mt-10 md:p-8">
+                    <h2 className="mb-3 text-lg font-medium text-[#1a1a1a] md:text-xl">Зв&rsquo;яжіться з нами</h2>
+                    <p className="mb-2.5 text-sm text-[#6b7280] md:text-base">
                         Якщо ви хочете дізнатись про наявність товару, отримати консультацію
                         або поставити будь-які питання щодо продукції XADO — ми завжди готові допомогти.
                     </p>
-                    <p className="mb-2.5 text-sm md:text-base">
-                        <strong>Телефон для зв&rsquo;язку:</strong>{" "}
-                        <a href="tel:+380505850726" className="font-bold text-[#d32f2f]">
+                    <p className="mb-2.5 text-sm text-[#6b7280] md:text-base">
+                        <strong className="font-medium text-[#1a1a1a]">Телефон для зв&rsquo;язку:</strong>{" "}
+                        <a href="tel:+380505850726" className="font-medium text-[#c81e1e]">
                             +38 (050) 585-07-26
                         </a>
                     </p>
-                    <p className="mb-2.5 text-sm md:text-base">Ми допоможемо обрати саме те, що потрібно вашому автомобілю.</p>
-                    <p className="text-sm md:text-base">Звертайтеся, ми цінуємо кожного клієнта!</p>
+                    <p className="mb-2.5 text-sm text-[#6b7280] md:text-base">
+                        Ми допоможемо обрати саме те, що потрібно вашому автомобілю.
+                    </p>
+                    <p className="text-sm text-[#6b7280] md:text-base">Звертайтеся, ми цінуємо кожного клієнта!</p>
                 </section>
 
                 <Link
                     href={`/catalog/${category}`}
-                    className="mt-8 block rounded-lg bg-[#f9f9f9] p-3 text-center font-bold text-[#d32f2f] hover:bg-[#f0f0f0] md:mt-10 md:inline-block md:w-full md:bg-transparent"
+                    className="mt-8 block rounded-full border border-[#e5e5e5] p-3 text-center font-medium text-[#1a1a1a] transition-colors hover:border-[#1a1a1a] md:mt-10"
                 >
                     ← Назад до каталогу
                 </Link>
