@@ -25,7 +25,7 @@ export default function CategoryCarousel({ categories }: { categories: Category[
             <button
                 onClick={() => scroll("prev")}
                 aria-label="Попередні категорії"
-                className="absolute left-1.5 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#d50000] text-xl text-white shadow-md hover:bg-[#a00]"
+                className="absolute left-1.5 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e5e5] bg-white text-xl text-[#1a1a1a] shadow-sm hover:border-[#1a1a1a]"
             >
                 ❮
             </button>
@@ -48,7 +48,7 @@ export default function CategoryCarousel({ categories }: { categories: Category[
                             sizes="(min-width: 768px) 250px, (min-width: 640px) 230px, 200px"
                             className="object-cover"
                         />
-                        <span className="absolute inset-x-0 bottom-0 bg-black/60 py-4 text-center text-[0.95rem] font-bold text-white">
+                        <span className="absolute inset-x-0 bottom-0 bg-black/60 py-4 text-center text-[0.95rem] font-medium text-white">
               {category.name}
             </span>
                     </Link>
@@ -58,7 +58,7 @@ export default function CategoryCarousel({ categories }: { categories: Category[
             <button
                 onClick={() => scroll("next")}
                 aria-label="Наступні категорії"
-                className="absolute right-1.5 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#d50000] text-xl text-white shadow-md hover:bg-[#a00]"
+                className="absolute right-1.5 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e5e5] bg-white text-xl text-[#1a1a1a] shadow-sm hover:border-[#1a1a1a]"
             >
                 ❯
             </button>

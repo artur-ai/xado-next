@@ -50,6 +50,20 @@ Note: the project was created WITHOUT a `src/` folder (modern `create-next-app` 
 - `components/ProductCard.tsx`, `components/ProductCatalog.tsx` — catalog UI
 - `public/images/products/<category>/` — product images, copied from the old repo's `catalog/images_of_products/` folders (original filenames kept as-is for now; renaming to clean kebab-case is a separate future cleanup task, not done yet)
 
+## Design direction: "clean premium"
+
+As of the catalog + product page milestone, the project moved away from pixel-matching the old site's heavy red design toward a "clean premium" look (whitespace-forward, red used sparingly as an accent, like Apple/premium retail — not a full red header block). This applies to ALL new UI going forward (cart, checkout, etc.), not just the pages already redesigned.
+
+Color tokens (arbitrary Tailwind values, used consistently across components):
+- Page background: white / `#fafafa`
+- Primary text: `#1a1a1a` (near-black, not pure black)
+- Secondary/muted text: `#6b7280`
+- Borders: `#e5e5e5` (thin, 1px) — replaces the old thick colored left-border-on-cards pattern
+- Accent red (price, hover states, one CTA per view): `#c81e1e` — NOT the brighter `#d62828`/`#d50000` from the old site; slightly deeper, used sparingly
+- Header: white/near-white background with a thin bottom border, not a solid red bar
+- Buttons: dark charcoal fill for primary actions, outlined/ghost for secondary — not red-filled buttons everywhere
+- Cards: white bg, thin gray border, hover = border darkens + subtle lift/shadow — no colored side-stripe
+
 ## Conventions
 
 - Code/variable language — English, even though the data source (Google Sheets) is in Ukrainian — normalize into typed fields inside `lib/products.ts`.

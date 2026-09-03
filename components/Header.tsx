@@ -2,25 +2,34 @@ import Link from "next/link";
 
 export default function Header() {
     return (
-        <header className="sticky top-0 z-50 bg-[#d62828] text-white shadow-md">
-            <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3.5 md:px-6">
-                <Link href="/" className="text-2xl font-bold text-white md:text-[28px]">
+        <header className="sticky top-0 z-50 border-b border-[#e5e5e5] bg-white/90 backdrop-blur-sm">
+            <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-4 md:px-6">
+                <Link href="/" className="text-xl font-medium tracking-tight text-[#1a1a1a] md:text-2xl">
                     XADO
                 </Link>
                 <nav>
-                    <ul className="flex flex-wrap gap-4 md:gap-6">
+                    <ul className="flex flex-wrap gap-6 md:gap-8">
                         <li>
-                            <Link href="/#hero" className="text-[15px] font-medium hover:text-[#ffc300] md:text-base">
+                            <Link
+                                href="/#hero"
+                                className="text-[14px] font-medium text-[#1a1a1a] transition-colors hover:text-[#c81e1e] md:text-[15px]"
+                            >
                                 Про нас
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#categories" className="text-[15px] font-medium hover:text-[#ffc300] md:text-base">
+                            <Link
+                                href="/#categories"
+                                className="text-[14px] font-medium text-[#1a1a1a] transition-colors hover:text-[#c81e1e] md:text-[15px]"
+                            >
                                 Категорії
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#contact" className="text-[15px] font-medium hover:text-[#ffc300] md:text-base">
+                            <Link
+                                href="/#contact"
+                                className="text-[14px] font-medium text-[#1a1a1a] transition-colors hover:text-[#c81e1e] md:text-[15px]"
+                            >
                                 Контакти
                             </Link>
                         </li>

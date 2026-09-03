@@ -135,3 +135,22 @@ export function getAllCategorySlugs(): CategorySlug[] {
 export function getProductImagePath(category: CategorySlug, imageFileName: string): string {
     return `/images/products/${category}/${imageFileName}`;
 }
+
+export type TechSpec = { label: string; value: string };
+
+export function parseTechnicalTable(html: string): TechSpec[] {
+    const rows: TechSpec[] = [];
+    const rowMatches = html.match(/<tr>[\s\S]*?<\/tr>/g) ?? [];
+
+    for (const row of rowMatches) {
+        if (row.includes("<th>")) continue; // skip header row
+        const cells = [...row.matchAll(/<t[dh]>([\s\S]*?)<\/t[dh]>/g)].map((m) =>
+            m[1].replace(/<[^>]+>/g, "").trim()
+        );
+        if (cells.length === 2) {
+            rows.push({ label: cells[0], value: cells[1] });
+        }
+    }
+
+    return rows;
+}

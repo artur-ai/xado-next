@@ -25,8 +25,8 @@ export default function ProductCatalog({
     const filterButtonClass = (isActive: boolean) =>
         `rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
             isActive
-                ? "border-[#d62828] bg-[#d62828] text-white"
-                : "border-[#ddd] bg-[#f1f1f1] text-[#333] hover:border-[#ffc300] hover:bg-[#ffc300] hover:text-black"
+                ? "border-[#1a1a1a] bg-[#1a1a1a] text-white"
+                : "border-[#e5e5e5] bg-white text-[#1a1a1a] hover:border-[#1a1a1a]"
         }`;
 
     return (
@@ -35,7 +35,7 @@ export default function ProductCatalog({
                 <div className="mx-auto my-5 max-w-[800px] text-center">
                     <button
                         onClick={() => setShowFilters((v) => !v)}
-                        className="rounded-md bg-[#d62828] px-6 py-2.5 font-bold text-white shadow-[0_4px_6px_rgba(214,40,40,0.2)] transition-transform hover:-translate-y-0.5 hover:bg-[#b51c1c]"
+                        className="rounded-full border border-[#1a1a1a] px-6 py-2.5 text-sm font-medium text-[#1a1a1a] transition-colors hover:bg-[#1a1a1a] hover:text-white"
                     >
                         {showFilters ? "Сховати фільтри" : "Показати фільтри"}
                     </button>
