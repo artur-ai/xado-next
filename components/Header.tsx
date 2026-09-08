@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CartIcon from "@/components/CartIcon";
 
 export default function Header() {
     return (
@@ -8,7 +9,7 @@ export default function Header() {
                     XADO
                 </Link>
                 <nav>
-                    <ul className="flex flex-wrap gap-6 md:gap-8">
+                    <ul className="flex flex-wrap items-center gap-6 md:gap-8">
                         <li>
                             <Link
                                 href="/#hero"
@@ -32,6 +33,9 @@ export default function Header() {
                             >
                                 Контакти
                             </Link>
+                        </li>
+                        <li>
+                            <CartIcon />
                         </li>
                     </ul>
                 </nav>

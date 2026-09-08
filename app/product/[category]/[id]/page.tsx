@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 import type { Metadata } from "next";
 import {
@@ -112,6 +113,15 @@ export default async function ProductPage({
                         </div>
                     );
                 })}
+
+                <AddToCartButton
+                    id={product.id}
+                    category={category}
+                    name={product.name}
+                    price={product.price}
+                    volume={product.volume}
+                    image={product.image}
+                />
 
                 <section className="mt-8 rounded-xl border border-[#e5e5e5] bg-[#fafafa] p-5 md:mt-10 md:p-8">
                     <h2 className="mb-3 text-lg font-medium text-[#1a1a1a] md:text-xl">Зв&rsquo;яжіться з нами</h2>

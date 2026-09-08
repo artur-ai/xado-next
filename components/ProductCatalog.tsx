@@ -14,13 +14,21 @@ export default function ProductCatalog({
     const [showFilters, setShowFilters] = useState(false);
     const [activeFilter, setActiveFilter] = useState("all");
 
-    const subCategories = useMemo(() => {
-        const unique = new Set(products.map((p) => p.subCategory).filter(Boolean));
-        return Array.from(unique);
+    const subCategoryOptions = useMemo(() => {
+        const map = new Map<string, string>(); // normalized key -> original label for display
+        products.forEach((p) => {
+            const raw = p.subCategory.trim();
+            if (!raw) return;
+            const key = raw.toUpperCase();
+            if (!map.has(key)) map.set(key, raw);
+        });
+        return Array.from(map.entries()).map(([key, label]) => ({ key, label }));
     }, [products]);
 
     const filteredProducts =
-        activeFilter === "all" ? products : products.filter((p) => p.subCategory === activeFilter);
+        activeFilter === "all"
+            ? products
+            : products.filter((p) => p.subCategory.trim().toUpperCase() === activeFilter);
 
     const filterButtonClass = (isActive: boolean) =>
         `rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
@@ -31,7 +39,7 @@ export default function ProductCatalog({
 
     return (
         <div>
-            {subCategories.length > 0 && (
+            {subCategoryOptions.length > 0 && (
                 <div className="mx-auto my-5 max-w-[800px] text-center">
                     <button
                         onClick={() => setShowFilters((v) => !v)}
@@ -41,20 +49,21 @@ export default function ProductCatalog({
                     </button>
 
                     {showFilters && (
-                        <div className="mt-5 flex flex-wrap justify-center gap-2.5 rounded-lg border border-[#eee] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
-                            {subCategories.map((sub) => (
-                                <button key={sub} onClick={() => setActiveFilter(sub)} className={filterButtonClass(activeFilter === sub)}>
-                                    {sub}
+                        <div className="mt-5 flex flex-wrap justify-center gap-2.5 rounded-lg border border-[#e5e5e5] bg-white p-4">
+                            {subCategoryOptions.map((option) => (
+                                <button
+                                    key={option.key}
+                                    onClick={() => setActiveFilter(option.key)}
+                                    className={filterButtonClass(activeFilter === option.key)}
+                                >
+                                    {option.label}
                                 </button>
                             ))}
-                            <button onClick={() => setActiveFilter("all")} className={filterButtonClass(activeFilter === "all")}>
-                                Показати всі
-                            </button>
                             <button
                                 onClick={() => setActiveFilter("all")}
-                                className="ml-2.5 rounded-full border border-dashed border-[#bbb] bg-transparent px-4 py-2 text-sm font-medium text-[#777] hover:border-[#d62828] hover:bg-[#f9f9f9] hover:text-[#d62828]"
+                                className={filterButtonClass(activeFilter === "all")}
                             >
-                                Прибрати всі фільтри
+                                Показати всі
                             </button>
                         </div>
                     )}
