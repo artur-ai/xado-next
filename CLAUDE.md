@@ -45,9 +45,10 @@ Note: the project was created WITHOUT a `src/` folder (modern `create-next-app` 
 - `app/layout.tsx` — shared Header/Footer for every page
 - `app/page.tsx` — home page
 - `app/catalog/[category]/page.tsx` — category page (one template instead of 6 separate HTML files), with sub-category filter buttons generated dynamically from the data
-- `app/product/[category]/[id]/page.tsx` — product detail page (NOT YET BUILT). Route uses both category and id (not just id) because product IDs are only guaranteed unique within a single category's Google Sheet tab, not globally.
+- `app/product/[category]/[id]/page.tsx` — product detail page, built. Route uses both category and id (not just id) because product IDs are only guaranteed unique within a single category's Google Sheet tab, not globally. Renders image, name, price, volume, description/advantages/requirements sections (only shown if non-empty), a parsed technical-info table (`parseTechnicalTable` in `lib/products.ts`), an "Add to cart" button, a contact block, and a back-to-catalog link. Invalid category or id both correctly resolve to `notFound()` (404).
+- `app/cart/page.tsx`, `components/CartProvider.tsx`, `components/CartIcon.tsx`, `components/AddToCartButton.tsx` — cart (context-based, added after the product page milestone)
 - `lib/products.ts` — data access layer (types, CSV fetch + parse, category config)
-- `components/ProductCard.tsx`, `components/ProductCatalog.tsx` — catalog UI
+- `components/ProductCard.tsx`, `components/ProductCatalog.tsx`, `components/CategoryCarousel.tsx` — catalog UI
 - `public/images/products/<category>/` — product images, copied from the old repo's `catalog/images_of_products/` folders (original filenames kept as-is for now; renaming to clean kebab-case is a separate future cleanup task, not done yet)
 
 ## Design direction: "clean premium"
