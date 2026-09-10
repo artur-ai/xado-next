@@ -7,9 +7,11 @@ export type Product = {
     image: string;
     description: string;
     advantages: string;
+    advantagesTitle: string;
     requirements: string;
     usage: string;
     notes: string;
+    dilution: string;
     technicalInfo: string;
 };
 
@@ -98,11 +100,16 @@ function mapRowToProduct(row: Record<string, string>): Product {
         image: row["Картинка"] ?? "",
         description: row["Опис"] ?? "",
         advantages: row["Переваги"] ?? "",
-        requirements: row["Вимоги та допуски"] ?? "",
-        // "revitalizant" sheet uses different column names than the other categories
+        // each category's sheet tab uses its own column names for these — mastyla has
+        // a custom heading for the advantages section; requirements/notes/technical info
+        // show up under different header text depending on the category
+        advantagesTitle: row["Заголовок_Переваг"] ?? "",
+        requirements: row["Вимоги та допуски"] ?? row["Вимоги"] ?? "",
         usage: row["Застосування"] ?? "",
-        notes: row["Примітки"] ?? "",
-        technicalInfo: row["Технічна інформація"] ?? row["Додатково_HTML"] ?? "",
+        notes: row["Примітки"] ?? row["Примітки_HTML"] ?? "",
+        dilution: row["Розведення_HTML"] ?? "",
+        technicalInfo:
+            row["Технічна інформація"] ?? row["Додатково_HTML"] ?? row["Тех_Характеристики_HTML"] ?? "",
     };
 }
 
@@ -168,4 +175,22 @@ export function parseHtmlTable(html: string): ParsedTable {
     }
 
     return { headers, rows };
+}
+
+export type HtmlBlock = { type: "li" | "p"; text: string };
+
+// Some HTML cells are bullet lists / paragraphs rather than tables (e.g.
+// technical_ridini's "Примітки_HTML": a <ul> of specs plus a trailing <p>).
+export function parseHtmlBlocks(html: string): HtmlBlock[] {
+    const blocks: HtmlBlock[] = [];
+    const regex = /<li[^>]*>([\s\S]*?)<\/li>|<p[^>]*>([\s\S]*?)<\/p>/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(html)) !== null) {
+        const raw = match[1] ?? match[2] ?? "";
+        const text = raw.replace(/<[^>]+>/g, "").trim();
+        if (text) blocks.push({ type: match[1] !== undefined ? "li" : "p", text });
+    }
+
+    return blocks;
 }
