@@ -8,6 +8,8 @@ export type Product = {
     description: string;
     advantages: string;
     requirements: string;
+    usage: string;
+    notes: string;
     technicalInfo: string;
 };
 
@@ -97,7 +99,10 @@ function mapRowToProduct(row: Record<string, string>): Product {
         description: row["Опис"] ?? "",
         advantages: row["Переваги"] ?? "",
         requirements: row["Вимоги та допуски"] ?? "",
-        technicalInfo: row["Технічна інформація"] ?? "",
+        // "revitalizant" sheet uses different column names than the other categories
+        usage: row["Застосування"] ?? "",
+        notes: row["Примітки"] ?? "",
+        technicalInfo: row["Технічна інформація"] ?? row["Додатково_HTML"] ?? "",
     };
 }
 
@@ -136,21 +141,31 @@ export function getProductImagePath(category: CategorySlug, imageFileName: strin
     return `/images/products/${category}/${imageFileName}`;
 }
 
-export type TechSpec = { label: string; value: string };
+export type ParsedTable = { headers: string[]; rows: string[][] };
 
-export function parseTechnicalTable(html: string): TechSpec[] {
-    const rows: TechSpec[] = [];
-    const rowMatches = html.match(/<tr>[\s\S]*?<\/tr>/g) ?? [];
+// Tables in the sheet come in two shapes: plain label/value spec lists (no header
+// row, every row has 2 cells) used by most categories' "Технічна інформація", and
+// multi-column tables with a header row (e.g. revitalizant's dosage table). This
+// parses either shape; it also tolerates the sheet's occasional malformed HTML
+// (e.g. a missing ">" between "</thead" and "<tbody>") since it only looks for
+// <tr>...</tr> and <td>/<th> pairs, not well-formed thead/tbody structure.
+export function parseHtmlTable(html: string): ParsedTable {
+    const rowMatches = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/g) ?? [];
+    const headers: string[] = [];
+    const rows: string[][] = [];
 
-    for (const row of rowMatches) {
-        if (row.includes("<th>")) continue; // skip header row
-        const cells = [...row.matchAll(/<t[dh]>([\s\S]*?)<\/t[dh]>/g)].map((m) =>
+    for (const rowHtml of rowMatches) {
+        const cells = [...rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((m) =>
             m[1].replace(/<[^>]+>/g, "").trim()
         );
-        if (cells.length === 2) {
-            rows.push({ label: cells[0], value: cells[1] });
+        if (cells.length === 0) continue;
+
+        if (rowHtml.includes("<th") && headers.length === 0) {
+            headers.push(...cells);
+        } else {
+            rows.push(cells);
         }
     }
 
-    return rows;
+    return { headers, rows };
 }

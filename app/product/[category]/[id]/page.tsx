@@ -8,7 +8,7 @@ import {
     getCategoryLabel,
     getProductById,
     getProductImagePath,
-    parseTechnicalTable,
+    parseHtmlTable,
     type CategorySlug,
 } from "@/lib/products";
 
@@ -56,6 +56,8 @@ export default async function ProductPage({
         { title: "Опис", content: product.description },
         { title: "Переваги", content: product.advantages },
         { title: "Вимоги та допуски", content: product.requirements },
+        { title: "Примітки", content: product.notes },
+        { title: "Застосування", content: product.usage },
         { title: "Технічна інформація", content: product.technicalInfo },
     ].filter((section) => section.content);
 
@@ -89,22 +91,54 @@ export default async function ProductPage({
                 {sections.map((section) => {
                     const isTechTable =
                         section.title === "Технічна інформація" && section.content.includes("<table");
-                    const techRows = isTechTable ? parseTechnicalTable(section.content) : [];
+                    const table = isTechTable ? parseHtmlTable(section.content) : null;
+                    const isLabelValueTable =
+                        table !== null && table.headers.length === 0 && table.rows.every((row) => row.length === 2);
 
                     return (
                         <div key={section.title} className="mt-6 md:mt-8">
                             <h2 className="mb-3 text-lg font-medium text-[#1a1a1a] md:text-xl">{section.title}</h2>
-                            {isTechTable && techRows.length > 0 ? (
+                            {table && isLabelValueTable && table.rows.length > 0 ? (
                                 <table className="w-full border-collapse overflow-hidden rounded-lg text-sm md:text-base">
                                     <tbody>
-                                    {techRows.map((row) => (
-                                        <tr key={row.label} className="border-b border-[#e5e5e5] last:border-b-0">
-                                            <td className="bg-[#fafafa] py-2 pr-3 pl-3 font-medium text-[#6b7280]">{row.label}</td>
-                                            <td className="py-2 pr-3 pl-3 text-[#1a1a1a]">{row.value}</td>
+                                    {table.rows.map(([label, value], i) => (
+                                        <tr key={i} className="border-b border-[#e5e5e5] last:border-b-0">
+                                            <td className="bg-[#fafafa] py-2 pr-3 pl-3 font-medium text-[#6b7280]">{label}</td>
+                                            <td className="py-2 pr-3 pl-3 text-[#1a1a1a]">{value}</td>
                                         </tr>
                                     ))}
                                     </tbody>
                                 </table>
+                            ) : table && !isLabelValueTable && table.rows.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full border-collapse overflow-hidden rounded-lg text-sm md:text-base">
+                                        {table.headers.length > 0 && (
+                                            <thead>
+                                            <tr className="border-b border-[#e5e5e5]">
+                                                {table.headers.map((header, i) => (
+                                                    <th
+                                                        key={i}
+                                                        className="bg-[#fafafa] py-2 px-3 text-left font-medium text-[#6b7280]"
+                                                    >
+                                                        {header}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                            </thead>
+                                        )}
+                                        <tbody>
+                                        {table.rows.map((row, i) => (
+                                            <tr key={i} className="border-b border-[#e5e5e5] last:border-b-0">
+                                                {row.map((cell, j) => (
+                                                    <td key={j} className="py-2 px-3 text-[#1a1a1a]">
+                                                        {cell}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             ) : (
                                 <p className="text-[15px] leading-relaxed whitespace-pre-line text-[#6b7280] md:text-base">
                                     {section.content}
