@@ -72,8 +72,10 @@ export default function ProductCatalog({
 
             {filteredProducts.length > 0 ? (
                 <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
-                    {filteredProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} category={category} />
+                    {filteredProducts.map((product, index) => (
+                        // Some sheet rows (bulk "розлив" listings) have no ID, so product.id
+                        // alone isn't a safe key — it duplicates and corrupts filtered renders.
+                        <ProductCard key={`${product.id}-${index}`} product={product} category={category} />
                     ))}
                 </div>
             ) : (
